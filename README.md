@@ -10,6 +10,6 @@ Tools and plugins for [Solar2D](https://solar2d.com) developers.
 
 **Try Ship Check Lite now:** https://ziroxonline111.github.io/karelia-solar2d/shipcheck/lite/ checks the 16 KB page rule and 64-bit libraries of an APK or AAB, and names the plugin behind each problem. It runs in your browser; the file is never uploaded.
 
-Support: https://ziroxonline111.github.io/karelia-labs/support/ · support@karelialabs.atlassian.net
+Support: [SUPPORT.md](SUPPORT.md) · support@karelialabs.atlassian.net
 
 This repository holds the documentation and the free Ship Check Lite. The paid products are sold on the Solar2D marketplaces. See LICENSE.txt.
