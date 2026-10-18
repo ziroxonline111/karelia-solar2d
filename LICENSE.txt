@@ -1,0 +1,18 @@
+Karelia Labs - licence for marketplace products
+
+Copyright (c) 2026 Karelia Labs. All rights reserved.
+
+You bought or downloaded this product through a Solar2D marketplace. The
+marketplace's end user licence agreement (EULA) applies, together with these
+plain-language terms:
+
+- You may use the product in any number of your own apps and games, free or
+  paid, and ship it inside them.
+- You may change the product's code for your own projects.
+- You may not resell, share or publish the product itself, alone or as part
+  of another template, plugin or asset pack.
+- The product is provided "as is", without warranty of any kind. Store rules,
+  privacy laws and portal requirements change; you remain responsible for
+  your app's compliance.
+
+Support: support@karelialabs.atlassian.net

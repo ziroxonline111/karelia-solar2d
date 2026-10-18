@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ship Check</title>
+<style>
+	:root {
+		--bg: #f5f6fa; --card: #ffffff; --ink: #141826; --muted: #5b6275; --line: #e0e4ee; --code: #eef1f7;
+		--accent: #4b5cff; --accent-ink: #fff;
+		--fail: #c43b3b; --fail-bg: #fdecec; --warn: #a76400; --warn-bg: #fff4de; --ok: #157a4c; --ok-bg: #e5f6ed; --info: #4a5570; --info-bg: #eef0f6;
+	}
+	@media (prefers-color-scheme: dark) {
+		:root { --bg: #0e1120; --card: #161a2c; --ink: #e8ebf5; --muted: #9aa2bc; --line: #283050; --code: #1f2640;
+			--accent: #7b88ff; --accent-ink: #0e1120;
+			--fail: #ff8a8a; --fail-bg: #3a1c24; --warn: #ffc35c; --warn-bg: #3a2e16; --ok: #5fd99a; --ok-bg: #163327; --info: #b3bad0; --info-bg: #222842; }
+	}
+	* { box-sizing: border-box; }
+	body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+	main { max-width: 860px; margin: 0 auto; padding: 28px 16px 64px; }
+	header h1 { font-size: 28px; margin: 0; letter-spacing: -0.015em; }
+	header p { color: var(--muted); margin: 4px 0 20px; }
+	.drop { background: var(--card); border: 2px dashed var(--line); border-radius: 16px; padding: 34px 16px; text-align: center; cursor: pointer; transition: border-color .15s; }
+	.drop.hover { border-color: var(--accent); }
+	.drop strong { font-size: 17px; }
+	.drop small { display: block; color: var(--muted); margin-top: 6px; }
+	button { appearance: none; border: 0; border-radius: 999px; padding: 9px 18px; font: 600 14px system-ui, sans-serif; cursor: pointer; background: var(--accent); color: var(--accent-ink); }
+	button.ghost { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+	.summary { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 22px 0 10px; }
+	.pill { border-radius: 999px; padding: 4px 12px; font-weight: 600; font-size: 13px; }
+	.pill.fail { background: var(--fail-bg); color: var(--fail); } .pill.warn { background: var(--warn-bg); color: var(--warn); }
+	.pill.ok { background: var(--ok-bg); color: var(--ok); }
+	.facts { color: var(--muted); font-size: 13px; margin-bottom: 14px; word-break: break-word; }
+	.res { background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--info); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+	.res.fail { border-left-color: var(--fail); } .res.warn { border-left-color: var(--warn); } .res.ok { border-left-color: var(--ok); }
+	.res h3 { margin: 0; font-size: 15px; display: flex; gap: 10px; align-items: baseline; }
+	.tag { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; padding: 2px 8px; border-radius: 6px; flex: none; }
+	.tag.fail { background: var(--fail-bg); color: var(--fail); } .tag.warn { background: var(--warn-bg); color: var(--warn); }
+	.tag.ok { background: var(--ok-bg); color: var(--ok); } .tag.info { background: var(--info-bg); color: var(--info); }
+	.res p { margin: 6px 0 0; color: var(--muted); }
+	.res ul { margin: 6px 0 0; padding-left: 20px; font: 13px/1.5 ui-monospace, Consolas, monospace; }
+	.res .fix { color: var(--ink); }
+	.res pre { background: var(--code); border-radius: 8px; padding: 10px; margin: 8px 0 0; overflow-x: auto; font: 12.5px/1.45 ui-monospace, Consolas, monospace; }
+	.res .row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+	.res a { color: var(--accent); }
+	.lite { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-top: 16px; }
+	.err { color: var(--fail); font-weight: 600; margin-top: 14px; }
+	footer { color: var(--muted); font-size: 13px; margin-top: 28px; }
+	.hidden { display: none; }
+</style>
+</head>
+<body>
+<main>
+	<header>
+		<h1>Ship Check</h1>
+		<p>Checks a Solar2D build against Google Play and App Store rules before you upload. Runs in this page only; your file never leaves the computer.</p>
+	</header>
+
+	<div class="drop" id="drop" tabindex="0" role="button" aria-label="Choose a build file">
+		<strong>Drop an .apk, .aab or .ipa here</strong>
+		<small>or click to choose a file</small>
+	</div>
+	<input type="file" id="file" accept=".apk,.aab,.ipa" hidden>
+	<div id="error" class="err hidden"></div>
+
+	<section id="report" class="hidden">
+		<div class="summary" id="summary"></div>
+		<div class="facts" id="facts"></div>
+		<div class="row" style="display:flex;gap:8px;margin-bottom:14px">
+			<button class="ghost" id="copy" type="button">Copy report</button>
+			<button class="ghost" id="again" type="button">Check another file</button>
+		</div>
+		<div id="results"></div>
+		<div class="lite hidden" id="lite">
+			<strong>This is Ship Check Lite.</strong> It checks native libraries (16 KB pages, 64-bit) and the Solar2D version.
+			Ship Check Pro adds the rest: target API, Play Billing, Play Games v1, Google Sign-In, ads SDK and consent, debuggable builds, the R8 rule,
+			and every App Store check including the usage-string rejections and a generated privacy manifest.
+		</div>
+	</section>
+
+	<footer>Karelia Ship Check <span id="ver"></span> · rules reviewed 2026-10-18 · each result links its source.</footer>
+</main>
+
+<script src="shipcheck-core.js"></script>
+<script src="checks-lite.js"></script>
+<script src="checks-pro.js" onerror="void 0"></script>
+<script>
+(function () {
+	"use strict";
+	var $ = function (id) { return document.getElementById(id); };
+	$("ver").textContent = ShipCheck.VERSION;
+	var last = null;
+
+	function inflateRaw(u8) {
+		return new Response(new Blob([u8]).stream().pipeThrough(new DecompressionStream("deflate-raw")))
+			.arrayBuffer().then(function (b) { return new Uint8Array(b); });
+	}
+	function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+	var LABEL = { fail: "Fix", warn: "Soon", ok: "OK", info: "Info" };
+
+	function render(r) {
+		last = r;
+		var count = function (s) { return r.results.filter(function (x) { return x.status === s; }).length; };
+		var f = count("fail"), w = count("warn"), o = count("ok");
+		$("summary").innerHTML =
+			'<strong>' + esc(r.name) + '</strong>' +
+			'<span class="pill fail">' + f + ' to fix</span><span class="pill warn">' + w + ' soon</span><span class="pill ok">' + o + ' ok</span>';
+		var facts = Object.keys(r.facts).filter(function (k) { var v = r.facts[k]; return v !== undefined && v !== null && v !== "" && !(Array.isArray(v) && !v.length); })
+			.map(function (k) { var v = r.facts[k]; return k + ": " + (Array.isArray(v) ? v.join(", ") : v); });
+		$("facts").textContent = r.kind.toUpperCase() + " · " + (r.size / 1048576).toFixed(1) + " MB" + (facts.length ? " · " + facts.join(" · ") : "");
+		$("results").innerHTML = r.results.map(function (x, i) {
+			var h = '<div class="res ' + x.status + '"><h3><span class="tag ' + x.status + '">' + LABEL[x.status] + '</span><span>' + esc(x.title) + '</span></h3>';
+			if (x.detail) h += '<p>' + esc(x.detail) + '</p>';
+			if (x.items && x.items.length) h += '<ul>' + x.items.map(function (it) { return '<li>' + esc(it) + '</li>'; }).join("") + '</ul>';
+			if (x.fix) h += '<p class="fix"><strong>Fix:</strong> ' + esc(x.fix) + '</p>';
+			if (x.code) h += '<pre>' + esc(x.code) + '</pre>';
+			var buttons = [];
+			if (x.code) buttons.push('<button class="ghost" data-copy="' + i + '" type="button">Copy</button>');
+			if (x.download) buttons.push('<button data-dl="' + i + '" type="button">Download ' + esc(x.download.name) + '</button>');
+			if (x.source) buttons.push('<a href="' + esc(x.source) + '" target="_blank" rel="noopener">Source</a>');
+			if (buttons.length) h += '<div class="row">' + buttons.join("") + '</div>';
+			return h + '</div>';
+		}).join("");
+		$("lite").classList.toggle("hidden", !!r.editions.pro);
+		$("report").classList.remove("hidden");
+		$("drop").classList.add("hidden");
+	}
+
+	function toText(r) {
+		var lines = ["# Ship Check: " + r.name + " (" + r.kind.toUpperCase() + "), " + r.checked, ""];
+		r.results.forEach(function (x) {
+			lines.push("- [" + LABEL[x.status] + "] " + x.title);
+			if (x.detail) lines.push("  " + x.detail);
+			(x.items || []).forEach(function (it) { lines.push("    - " + it); });
+			if (x.fix) lines.push("  Fix: " + x.fix);
+			if (x.source) lines.push("  Source: " + x.source);
+		});
+		return lines.join("\n");
+	}
+
+	function copy(text, btn) {
+		var done = function () { var t = btn.textContent; btn.textContent = "Copied"; setTimeout(function () { btn.textContent = t; }, 1200); };
+		if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+		function fallback() { var ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); } catch (e) {} ta.remove(); done(); }
+	}
+
+	$("results").addEventListener("click", function (e) {
+		var b = e.target.closest("button"); if (!b || !last) return;
+		if (b.dataset.copy) copy(last.results[+b.dataset.copy].code, b);
+		if (b.dataset.dl) {
+			var d = last.results[+b.dataset.dl].download;
+			var a = document.createElement("a");
+			a.href = URL.createObjectURL(new Blob([d.content], { type: "application/xml" }));
+			a.download = d.name; document.body.appendChild(a); a.click(); a.remove();
+		}
+	});
+	$("copy").onclick = function () { if (last) copy(toText(last), $("copy")); };
+	$("again").onclick = function () { $("report").classList.add("hidden"); $("drop").classList.remove("hidden"); $("file").value = ""; };
+
+	function check(file) {
+		$("error").classList.add("hidden");
+		$("drop").querySelector("strong").textContent = "Checking " + file.name + "…";
+		file.arrayBuffer().then(function (buf) {
+			return ShipCheck.analyze(new Uint8Array(buf), file.name, { inflateRaw: inflateRaw, now: new Date() });
+		}).then(render).catch(function (e) {
+			$("error").textContent = e.message; $("error").classList.remove("hidden");
+		}).then(function () { $("drop").querySelector("strong").textContent = "Drop an .apk, .aab or .ipa here"; });
+	}
+
+	var drop = $("drop");
+	drop.onclick = function () { $("file").click(); };
+	drop.onkeydown = function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("file").click(); } };
+	$("file").onchange = function (e) { if (e.target.files[0]) check(e.target.files[0]); };
+	["dragenter", "dragover"].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.add("hover"); }); });
+	["dragleave", "drop"].forEach(function (t) { drop.addEventListener(t, function (e) { e.preventDefault(); drop.classList.remove("hover"); }); });
+	drop.addEventListener("drop", function (e) { if (e.dataTransfer.files[0]) check(e.dataTransfer.files[0]); });
+})();
+</script>
+</body>
+</html>
