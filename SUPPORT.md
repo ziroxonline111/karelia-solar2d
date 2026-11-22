@@ -23,7 +23,3 @@ We answer within 14 days at the latest, as the marketplace vendor agreement requ
 - [Karelia Consent](consent/README.md)
 - [Karelia Web Kit](webkit/README.md)
 - [Karelia Ship Check](shipcheck/README.md)
-
-## Refunds
-
-Refunds follow the marketplace's rules: if a product does not work as described and we cannot fix it, you get your money back.

@@ -129,4 +129,4 @@ Copyright (c) 2026 Karelia Labs. Licensed under the marketplace EULA.
 
 ## Get it
 
-https://solar2dmarketplace.com/assets?KareliaWebKit_se-karelialabs
+In review at Solar2D Plugins; not on sale yet.

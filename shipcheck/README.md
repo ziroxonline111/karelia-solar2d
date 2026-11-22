@@ -83,4 +83,5 @@ Copyright (c) 2026 Karelia Labs. Licensed under the marketplace EULA.
 
 ## Get it
 
-https://solar2dmarketplace.com/assets?KareliaShipCheckPro_se-karelialabs
+- **Pro:** on sale on [Gumroad](https://karelialabs.gumroad.com/l/ship-check-pro-solar2d), $19.
+- **Lite:** free in your browser at https://karelialabs.com/shipcheck/lite/index.html, or as a free download from [Solar2D Plugins](https://www.solar2dplugins.com/assets/karelia-ship-check-lite).

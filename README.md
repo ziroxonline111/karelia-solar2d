@@ -6,7 +6,7 @@ Tools and plugins for [Solar2D](https://solar2d.com) developers.
 |---|---|
 | [Karelia Consent](consent/README.md) | GDPR, Google UMP and ATT in one call, with a privacy settings button and mediation forwarding. |
 | [Karelia Web Kit](webkit/README.md) | One Lua API for Poki, CrazyGames, GameDistribution, Google H5 Games Ads and Wavedash, plus a patcher for strict hosts. |
-| [Karelia Ship Check](shipcheck/README.md) | Will Google Play and the App Store accept your Solar2D build? Lite is free and runs below; Pro adds every store rule. |
+| [Karelia Ship Check](shipcheck/README.md) | Will Google Play and the App Store accept your Solar2D build? Lite is free and runs below; Pro adds every store rule: **[buy Ship Check Pro on Gumroad ($19)](https://karelialabs.gumroad.com/l/ship-check-pro-solar2d)**. |
 
 **Try Ship Check Lite now:** https://karelialabs.com/shipcheck/lite/index.html checks the 16 KB page rule and 64-bit libraries of an APK or AAB, and names the plugin behind each problem. It runs in your browser; the file is never uploaded. Background and fixes: [Solar2D and Google Play's 16 KB page size rule](https://karelialabs.com/guides/solar2d-android-16kb-page-size).
 
@@ -14,4 +14,4 @@ Tools and plugins for [Solar2D](https://solar2d.com) developers.
 
 Support: [SUPPORT.md](SUPPORT.md) · support@karelialabs.atlassian.net · More tools: [karelialabs.com/tools](https://karelialabs.com/tools)
 
-This repository holds the documentation and the free Ship Check Lite. Karelia Consent, Karelia Web Kit and Ship Check Pro are in review at Solar2D Plugins and cannot be bought yet. Need more store rules today? [Ship Check](https://karelialabs.com/tools/ship-check) checks any APK, AAB or IPA free in the browser, and [Ship Check CLI](https://karelialabs.gumroad.com/l/shipcheck-cli) ($29) runs the same checks on a build server. All Solar2D tools: [karelialabs.com/platforms/solar2d](https://karelialabs.com/platforms/solar2d). See LICENSE.txt.
+This repository holds the documentation and the free Ship Check Lite. **Ship Check Pro** is on sale on [Gumroad](https://karelialabs.gumroad.com/l/ship-check-pro-solar2d) ($19, one ZIP with the offline page and a command line for CI); it adds the Google Play and App Store checks listed in [shipcheck/README.md](shipcheck/README.md), including a generated PrivacyInfo.xcprivacy. Karelia Consent and Karelia Web Kit are in review at Solar2D Plugins and cannot be bought yet. Building with another engine? [Ship Check](https://karelialabs.com/tools/ship-check) checks any APK, AAB or IPA free in the browser, and [Ship Check CLI](https://karelialabs.gumroad.com/l/shipcheck-cli) ($29) runs those checks on a build server. All Solar2D tools: [karelialabs.com/platforms/solar2d](https://karelialabs.com/platforms/solar2d). See LICENSE.txt.
