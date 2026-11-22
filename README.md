@@ -14,4 +14,4 @@ Tools and plugins for [Solar2D](https://solar2d.com) developers.
 
 Support: [SUPPORT.md](SUPPORT.md) · support@karelialabs.atlassian.net · More tools: [karelialabs.com/tools](https://karelialabs.com/tools)
 
-This repository holds the documentation and the free Ship Check Lite. The paid products are sold on the Solar2D marketplaces. See LICENSE.txt.
+This repository holds the documentation and the free Ship Check Lite. Karelia Consent, Karelia Web Kit and Ship Check Pro are in review at Solar2D Plugins and cannot be bought yet. Need more store rules today? [Ship Check](https://karelialabs.com/tools/ship-check) checks any APK, AAB or IPA free in the browser, and [Ship Check CLI](https://karelialabs.gumroad.com/l/shipcheck-cli) ($29) runs the same checks on a build server. All Solar2D tools: [karelialabs.com/platforms/solar2d](https://karelialabs.com/platforms/solar2d). See LICENSE.txt.
